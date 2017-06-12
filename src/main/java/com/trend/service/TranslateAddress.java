@@ -112,11 +112,12 @@ public class TranslateAddress {
 
 	private String TranslateDetailAddress(String addressDetail) {
 		try {
-			Scanner in = new Scanner(new File("sententce.txt"));
+			Scanner in = new Scanner(new File("sentence.txt"));
 			while (in.hasNextLine()) {
 				String sentence = in.nextLine().trim();
-				String token[] = sentence.split("\\s+");
-				addressDetail = addressDetail.replaceAll(token[0].trim(), token[1].trim());
+				String setenceToken[] = sentence.split("\\s+");
+				String remainSentence = sentence.replaceAll(setenceToken[0].trim() + " ", "");
+				addressDetail = addressDetail.replaceAll(setenceToken[0].trim(), remainSentence);
 			}
 			in.close();
 			addressDetail = TranslateDetailLanguage(addressDetail);

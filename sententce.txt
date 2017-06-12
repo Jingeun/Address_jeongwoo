@@ -1,7 +1,0 @@
-층 F
-아파트 Apt.
-대학교 Univ.
-(주) Co.
-지하 B
-서울특별시 Seoul
-울산광역시 Ulsan
