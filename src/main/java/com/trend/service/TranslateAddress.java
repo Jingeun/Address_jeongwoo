@@ -3,12 +3,12 @@ package com.trend.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.google.common.collect.Maps;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -21,16 +21,18 @@ public class TranslateAddress {
 	private String apiUrl;
 	private Map<String, String> map;
 
-	public TranslateAddress() {
-		currentPage = "1";
-		countPerPage = "1";
-		apiUrl = "http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=" + currentPage +
-				"&countPerPage=" + countPerPage + "&confmKey=" + confmKey + "&keyword=";
-		map = new HashMap<String, String>();
-		InputTranslateKorAndEngMap();
+
+	public static TranslateAddress newInstance() {
+		TranslateAddress translateAddress = new TranslateAddress();
+		translateAddress.currentPage = "1";
+		translateAddress.countPerPage = "1";
+		translateAddress.apiUrl = "http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage=" + translateAddress.currentPage +
+				"&countPerPage=" + translateAddress.countPerPage + "&confmKey=" + translateAddress.confmKey + "&keyword=";
+		translateAddress.map = Maps.newLinkedHashMap();
+		return translateAddress;
 	}
 
-	private void InputTranslateKorAndEngMap() {
+	public void InputTranslateKorAndEngMap() {
 		try {
 			Scanner in = new Scanner(new File("translate.txt"));
 			while (in.hasNextLine()) {

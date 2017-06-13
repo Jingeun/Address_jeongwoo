@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -13,13 +14,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import com.trend.core.Person;
 
 public class ExcelParse {
-	private List<Person> list;
-
-	public ExcelParse() {
-		list = new LinkedList<Person>();
-	}
 
 	public List<Person> getExcelList() {
+		List<Person> list = Lists.newArrayList();
+
 		FileInputStream fis = null;
 		HSSFWorkbook workbook = null;
 		try {
@@ -67,6 +65,7 @@ public class ExcelParse {
 		Cell cell = row.getCell(i);
 		if (cell == null)
 			return null;
+
 		switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING:
 				return cell.getStringCellValue();
@@ -82,8 +81,4 @@ public class ExcelParse {
 		}
 	}
 
-	public List<Person> parseExcelList() {
-		//엑셀 데이터 파싱결과 리턴
-		return list;
-	}
 }

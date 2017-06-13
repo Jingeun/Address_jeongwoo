@@ -21,17 +21,21 @@ public class TranslateName {
 	private String url;
 	private String[] name;
 
-	public TranslateName() {
+	private TranslateName() {}
+
+	public static TranslateName newInstance() {
+		TranslateName translateName = new TranslateName();
 		try {
 			Scanner in = new Scanner(new File("naverAPI.txt"));
-			this.apiClientId = in.nextLine().trim();
-			this.apiSecret = in.nextLine().trim();
+			translateName.apiClientId = in.nextLine().trim();
+			translateName.apiSecret = in.nextLine().trim();
 			in.close();
-			this.url = "https://openapi.naver.com/v1/krdict/romanization?query=";
-			this.name = null;
+			translateName.url = "https://openapi.naver.com/v1/krdict/romanization?query=";
+			translateName.name = null;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		return translateName;
 	}
 
 	public String[] TranslateNameKor(String nameKor) {

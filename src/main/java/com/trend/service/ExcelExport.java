@@ -52,6 +52,7 @@ public class ExcelExport {
 		styleCount.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
 		row = sheet.createRow(0);
+
 		for (int i = 0; i < menu.length; i++) {
 			row.createCell(i).setCellValue(menu[i]);
 			row.getCell(i).setCellStyle(center);
@@ -86,7 +87,10 @@ public class ExcelExport {
 			row.createCell(14).setCellValue(person.getAddressee2phone());
 			row.createCell(15).setCellValue(person.getBuyerPhone());
 		}
-		sheet.autoSizeColumn(3);
+
+		for (int i = 0; i < menu.length; i++)
+			sheet.autoSizeColumn(i);
+
 		try {
 			FileOutputStream fos = new FileOutputStream("result.xls");
 			workbook.write(fos);

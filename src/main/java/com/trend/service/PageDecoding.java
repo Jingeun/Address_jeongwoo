@@ -10,10 +10,13 @@ public class PageDecoding {
 	private String url;
 	private String id;
 
-	public PageDecoding(String id) {
-		this.id = id;
-		//this.id = "kjw6613";
-		url = "http://storefarm.naver.com/" + this.id + "/products/";
+	private PageDecoding() {}
+
+	public static PageDecoding newInstance(String id) {
+		PageDecoding pageDecoding = new PageDecoding();
+		pageDecoding.id = id;
+		pageDecoding.url = "http://storefarm.naver.com/" + id + "/products/";
+		return pageDecoding;
 	}
 
 	public String ParsingGoodNumber(String goodsNum) {
@@ -23,20 +26,16 @@ public class PageDecoding {
 							"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
 					.timeout(10000)
 					.get();
-			Elements ele = doc.select("div > ._detail_info_area > ._target_content_area > ._content_detail");
-			String document = ele.html().replaceAll("<br /><br /><br /> <p><font color=\"white\" size=\"5\">", "");
-			String encryption = new String();
-			for (int i = 0; i < document.length(); i++) {
-				char alpha = document.charAt(i);
-				if (alpha == '<')
-					break;
-				encryption += alpha;
-			}
-			return encryption;
+			int startIndex = doc.html().indexOf("pcHtml");
+			if (startIndex < 0)
+				return "";
+			String pcHtml = doc.html().substring(startIndex).replaceAll("pcHtml : ", "").trim();
+			int endIndex = pcHtml.indexOf("<\\/font>");
+			return pcHtml.substring("\"<br /><br /><br /> <p><font color=\\\"white\\\" size=\\\"5\\\">".length(), endIndex);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "Asdf";
+		return "";
 	}
 
 }

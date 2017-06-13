@@ -12,7 +12,7 @@ import com.trend.service.TranslateName;
 
 public class Main {
 
-	private List<Person> list;
+	private static List<Person> list;
 	private static String Id;
 
 	public static void main(String[] args) {
@@ -26,16 +26,19 @@ public class Main {
 		if (!main.getExcelList())
 			TrandError("Excel Input Error!");
 		System.out.println("엑셀데이터 읽기 완료");
+
 		System.out.print("번역 작업 중");
 		main.TranslateNameAndAddress(Id);
 		System.out.println("\n번역 완료");
+
 		main.setExcelList();
 		System.out.println("엑셀 저장 완료");
 	}
 
 	private void TranslateNameAndAddress(String Id) {
-		TranslateName name = new TranslateName();
-		TranslateAddress addr = new TranslateAddress();
+		TranslateName name = TranslateName.newInstance();
+		TranslateAddress addr = TranslateAddress.newInstance();
+		addr.InputTranslateKorAndEngMap();
 
 		int size = list.size();
 		for (int i = 0, per = 0; i < size; i++) {
@@ -59,9 +62,10 @@ public class Main {
 			}
 
 			//복호화
-			PageDecoding decoding = new PageDecoding(Id);
+			PageDecoding decoding = PageDecoding.newInstance(Id);
 			String decodingNum = decoding.ParsingGoodNumber(tmpPerson.getGoodsNum());
 			tmpPerson.setGoodsEncryption(decodingNum);
+
 			/*
 			System.out.println(tmpPerson.getNameEng1());
 			System.out.println(tmpPerson.getNameEng2());
