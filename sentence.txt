@@ -1,4 +1,4 @@
-층 F
+﻿층 F
 아파트 Apt.
 대학교 Univ.
 (주) Co.
@@ -8,3 +8,10 @@
 방앗간 Mill
 광역시 Metropolitan city
 떡방앗간 Mill tteok
+연구개발원 Research development institute
+연구 Research
+개발원 Development institute
+헤어 Hair
+하우스 House
+스퀘어 Square
+@ Apt.

@@ -1,4 +1,4 @@
-가 Ga
+﻿가 Ga
 간 Gan
 갈 Gal
 감 Gam
@@ -693,5 +693,7 @@
 혹 Hok
 럽 Reop
 찌 Jji
-렛 let
-몽 mong
+렛 Let
+몽 Mong
+퀘 Kwe
+싱 Sing
