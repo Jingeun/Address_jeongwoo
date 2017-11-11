@@ -1,5 +1,6 @@
 package com.trend.main;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +34,12 @@ public class Main {
 
 		main.setExcelList();
 		System.out.println("엑셀 저장 완료");
+
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void TranslateNameAndAddress(String Id) {
@@ -65,17 +72,7 @@ public class Main {
 			PageDecoding decoding = PageDecoding.newInstance(Id);
 			String decodingNum = decoding.ParsingGoodNumber(tmpPerson.getGoodsNum());
 			tmpPerson.setGoodsEncryption(decodingNum);
-
-			/*
-			System.out.println(tmpPerson.getNameEng1());
-			System.out.println(tmpPerson.getNameEng2());
-			System.out.println(tmpPerson.getEngBaseAddr());
-			System.out.println(tmpPerson.getEngDetailAddr());
-			System.out.println(tmpPerson.getAddresseeZipCode());
-			System.out.println(tmpPerson.getZipCode());
-			*/
 		}
-
 	}
 
 	private void setExcelList() {

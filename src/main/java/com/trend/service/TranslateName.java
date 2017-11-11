@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Scanner;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -43,24 +41,28 @@ public class TranslateName {
 		name[0] = name[1] = nameKor;
 		try {
 			nameKor = nameKor.replaceAll(" ", "");
-			String nameUrl = this.url + nameKor;
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet get = new HttpGet(nameUrl);
+			String nameUrl = this.url + URLEncoder.encode(nameKor, "UTF-8");
 
-			//Set headers for API key authroization
-			get.addHeader("X-Naver-Client-Id", apiClientId);
-			get.addHeader("X-Naver-Client-secret", apiSecret);
+			URL url = new URL(nameUrl);
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("X-Naver-Client-Id", apiClientId);
+			con.setRequestProperty("X-Naver-Client-Secret", apiSecret);
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+			if(responseCode==200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else {  // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				response.append(inputLine);
+			}
+			br.close();
 
-			HttpResponse response = client.execute(get);
-
-			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-			StringBuffer buffer = new StringBuffer();
-			String line = "";
-			while ((line = rd.readLine()) != null)
-				buffer.append(line);
-			rd.close();
-
-			String result = buffer.toString();
+			String result = response.toString();
 			Charset.forName("UTF-8").encode(result);
 			JSONParser parser = new JSONParser();
 			JSONObject obj = (JSONObject)parser.parse(result);

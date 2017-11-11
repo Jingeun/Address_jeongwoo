@@ -2,7 +2,6 @@ package com.trend.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -36,14 +35,14 @@ public class ExcelParse {
 					person.setGoodsName(getCell(row, 15));
 					person.setGoodsOption(getCell(row, 17));
 					person.setGoodsCount(getCell(row, 19));
-					person.setGoodsMsg(getCell(row, 42));
-					person.setGoodsPrice(getCell(row, 21));
-					person.setBuyerPhone(getCell(row, 40));
-					person.setAddressee1phone(getCell(row, 37));
-					person.setAddressee2phone(getCell(row, 38));
-					person.setAddresseeZipCode(getCell(row, 41));
-					person.setBaseAddr(getCell(row, 59));
-					person.setDetailAddr(getCell(row, 60));
+					person.setGoodsMsg(getCell(row, 44));
+					person.setGoodsPrice(getCell(row, 24));
+					person.setBuyerPhone(getCell(row, 63));
+					person.setAddressee1phone(getCell(row, 58));
+					person.setAddressee2phone(getCell(row, 59));
+					person.setAddresseeZipCode(getCell(row, 60));
+					person.setBaseAddr(getCell(row, 61));
+					person.setDetailAddr(getCell(row, 62));
 					list.add(person);
 				}
 			}

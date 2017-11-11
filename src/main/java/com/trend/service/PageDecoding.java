@@ -8,13 +8,11 @@ import org.jsoup.select.Elements;
 
 public class PageDecoding {
 	private String url;
-	private String id;
 
 	private PageDecoding() {}
 
 	public static PageDecoding newInstance(String id) {
 		PageDecoding pageDecoding = new PageDecoding();
-		pageDecoding.id = id;
 		pageDecoding.url = "http://storefarm.naver.com/" + id + "/products/";
 		return pageDecoding;
 	}
@@ -29,9 +27,19 @@ public class PageDecoding {
 			int startIndex = doc.html().indexOf("pcHtml");
 			if (startIndex < 0)
 				return "";
-			String pcHtml = doc.html().substring(startIndex).replaceAll("pcHtml : ", "").trim();
-			int endIndex = pcHtml.indexOf("<\\/font>");
-			return pcHtml.substring("\"<br /><br /><br /> <p><font color=\\\"white\\\" size=\\\"5\\\">".length(), endIndex);
+			String pcHtml = doc.html().substring(startIndex).replaceAll("pcHtml : ", "").trim().replaceAll("<br />", "");
+
+			Elements font = Jsoup.parse(pcHtml).select("font");
+			if (font != null && font.size() > 0) {
+				String encryption = font.get(0).text();
+				return encryption.substring(0,  encryption.indexOf("<\\/font>"));
+			}
+
+			Elements span = Jsoup.parse(pcHtml).select("span");
+			if (span != null && span.size() > 0) {
+				String encryption = span.get(0).text();
+				return encryption.substring(0, encryption.indexOf("<\\/span>"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
